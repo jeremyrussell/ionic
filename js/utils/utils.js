@@ -199,7 +199,7 @@
       scope.$$nextSibling = scope.$$prevSibling = null;
     },
 
-    reconnectScope: function reconnectScope(scope) {
+    reconnectScope: function reconnectScope(scope, noBroadcast) {
       if (!scope) return;
 
       if (scope.$root === scope) {
@@ -210,7 +210,7 @@
       }
       var parent = scope.$parent;
       scope.$$disconnected = false;
-      scope.$broadcast('$ionic.reconnectScope');
+      if (!noBroadcast) scope.$broadcast('$ionic.reconnectScope');
       // See Scope.$new for this logic...
       scope.$$prevSibling = parent.$$childTail;
       if (parent.$$childHead) {

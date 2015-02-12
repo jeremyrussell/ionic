@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html ng-app="ionic">
   <head>
@@ -6,43 +7,28 @@
 
     <title>Sample UL</title>
 
-    <link  href="../../../../dist/css/ionic.css" rel="stylesheet">
-    <script src="../../../../dist/js/ionic.bundle.js"></script>
+    <link  href="/dist/css/ionic.css" rel="stylesheet">
+    <script src="/dist/js/ionic.bundle.js"></script>
+    <script src="stats.js"></script>
   </head>
 
   <body ng-controller="MainCtrl">
     <ion-header-bar class="bar-positive">
-      <h1 class="title">Hi</h1>
-      <a class="button" ng-click="scrollBottom(true)">
-        Bottom
-      </a>
-      <a class="button" ng-click="openModal()">
-        MODAL
-      </a>
+      <h1 class="title">Image Grid: Dynamic Height</h1>
     </ion-header-bar>
     <ion-content>
-        <ion-refresher on-refresh="loadMore()"></ion-refresher>
-      <p>
-      Hi, I'm some text before the list.
-      </p>
-      <div class="card full">
-        Hi, I'm a card before the list.
-      </div>
-      <ion-list>
-        <ion-item
-          class="item"
-          ng-click="alert(item)"
+      <ion-refresher on-refresh="loadMore()"></ion-refresher>
+
+      <ion-list can-swipe="true">
+        <img
           collection-repeat="item in items"
-          collection-item-height="100">
-          <img style="height: 80px;" src="http://lorempixel.com/90/90?q={{$index}}">
-          <h2>{{item.text}}</h2>
-          <ion-option-button>DEL</ion-option-button>
-        </ion-item>
+          collection-item-height="8*($index%10)+150"
+          collection-item-width="'33%'"
+          ng-src="http://lorempixel.com/180/180?q={{$index}}">
       </ion-list>
+
       <ion-infinite-scroll on-infinite="loadMore()"></ion-infinite-scroll>
-      <div class="card full">
-        Hi, I'm a card after the list.
-      </div>
+
     </ion-content>
   <script>
 angular.module('ionic').controller('MainCtrl',MainCtrl)
@@ -55,9 +41,11 @@ function MainCtrl($scope, $ionicScrollDelegate, $timeout, $q, $ionicLoading, $io
       image: 'http://placekitten.com/'+(100+50%i)+'/'+(100+50%i)
     });
   }
-  for (var i = 0; i < 2000; i++) addImage();
+  for (var i = 0; i < 10000; i++) addImage();
 
-  $scope.scrollBottom = $ionicScrollDelegate.scrollBottom;
+  $scope.scrollBottom = function() {
+    $ionicScrollDelegate.scrollBottom(true);
+  };
 
   $scope.loadMore = function() {
     $timeout(function() {
@@ -65,7 +53,7 @@ function MainCtrl($scope, $ionicScrollDelegate, $timeout, $q, $ionicLoading, $io
       for (var i = 0; i < n; i++) addImage();
       $scope.$broadcast('scroll.infiniteScrollComplete');
       $scope.$broadcast('scroll.refreshComplete');
-    }, 1);
+    }, 500);
   };
 
   $scope.openModal = function() {
@@ -74,9 +62,6 @@ function MainCtrl($scope, $ionicScrollDelegate, $timeout, $q, $ionicLoading, $io
 }
   </script>
   <style>
-.full {
-  left: 0;
-  right: 0;
-}
+  </style>
 </body>
 </html>

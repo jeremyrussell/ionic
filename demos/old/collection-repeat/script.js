@@ -42,10 +42,6 @@ angular.module('contactsApp', ['ionic'])
     return item.isLetter ? 40 : 100;
   };
 
-  $scope.scrollBottom = function() {
-    $ionicScrollDelegate.scrollBottom(true);
-  };
-
   var letterHasMatch = {};
   $scope.getContacts = function() {
     letterHasMatch = {};

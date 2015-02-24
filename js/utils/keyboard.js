@@ -200,9 +200,10 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
 
   console.log('keyboardShow', keyboardHeight, details.contentHeight);
 
-  // figure out if the element is under the keyboard
+  // figure out if the element is under the keyboard or above the view
   details.isElementUnderKeyboard = (details.elementBottom > details.contentHeight);
-
+  details.isElementAboveView = (details.elementTop < 0);
+  
   ionic.keyboard.isOpen = true;
 
   // send event so the scroll view adjusts

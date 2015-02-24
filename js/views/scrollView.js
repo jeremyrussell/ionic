@@ -662,8 +662,8 @@ ionic.views.Scroll = ionic.views.View.inherit({
         self.isScrolledIntoView = true;
       }
 
-      //If the element is positioned under the keyboard...
-      if ( e.detail.isElementUnderKeyboard ) {
+      //If the element is positioned under the keyboard or above the view...
+      if ( e.detail.isElementUnderKeyboard || e.detail.isElementAboveView ) {
         var delay;
         // Wait on android for web view to resize
         if ( ionic.Platform.isAndroid() && !ionic.Platform.isFullScreen ) {
@@ -691,11 +691,9 @@ ionic.views.Scroll = ionic.views.View.inherit({
 
           var scrollTop = elementTopOffsetToScrollBottom  + scrollMidpointOffset;
 
-          if (scrollTop > 0){
-            ionic.tap.cloneFocusedInput(container, self);
-            self.scrollBy(0, scrollTop, true);
-            self.onScroll();
-          }
+          ionic.tap.cloneFocusedInput(container, self);
+          self.scrollBy(0, scrollTop, true);
+          self.onScroll();
         }, delay);
       }
 
